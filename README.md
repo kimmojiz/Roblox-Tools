@@ -1,4 +1,5 @@
 # Roblox-Tools
 
-  ## Function
-    - Auto Register
+- Function
+  - Auto Register
+  - Auto Save account info
