@@ -1,4 +1,4 @@
 # Roblox-Tools
 
-  * Function
+  ## Function
     - Auto Register
