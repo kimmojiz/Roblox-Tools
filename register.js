@@ -4,13 +4,19 @@ const chromedriver = require('chromedriver');
 const chrome = require('selenium-webdriver/chrome');
 const webdriver = require('selenium-webdriver'),
     By = webdriver.By,
-    Key = webdriver.Key,
-    until = webdriver.until;
+    Key = webdriver.Key
 
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
 })
+
+const info = {
+    day: '01',
+    month: 'Jan',
+    year: '2005',
+    sex: 'MaleButton'
+}
 
 function generate(length) {
         charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
@@ -25,20 +31,39 @@ chrome.setDefaultService(new chrome.ServiceBuilder(chromedriver.path).build());
 
 async function register() {
 
-let driver = await new webdriver.Builder().forBrowser('chrome').build();
+    try {
 
+    var driver = await new webdriver.Builder().forBrowser('chrome').build();
 
     var name = generate(6);
     var password = generate(12);
     
     await driver.get('https://roblox.com');
-    await driver.findElement(By.id('MonthDropdown')).sendKeys('Jan', Key.RETURN)
-    await driver.findElement(By.id('DayDropdown')).sendKeys('01', Key.RETURN)
-    await driver.findElement(By.id('YearDropdown')).sendKeys('2005', Key.RETURN)
-    await driver.findElement(By.id('signup-username')).sendKeys(name, Key.RETURN)
-    await driver.findElement(By.id('signup-password')).sendKeys(password, Key.RETURN)
-    await driver.findElement(By.id('MaleButton')).click()
-    await driver.findElement(By.id('signup-button')).click()
+
+    var Month = await driver.findElement(By.id('MonthDropdown'))
+    Month.sendKeys(info.month);
+
+    var Day = await driver.findElement(By.id('DayDropdown'))
+    Day.sendKeys(info.day)
+
+    var Year = await driver.findElement(By.id('YearDropdown'))
+    Year.sendKeys(info.year)
+    
+    var username_slot = await driver.findElement(By.id('signup-username'))
+    username_slot.sendKeys(name)
+
+    var password_slot = await driver.findElement(By.id('signup-password'))
+    password_slot.sendKeys(password)
+
+    var sex = await driver.findElement(By.id(info.sex))
+    sex.click()
+
+    var signup = await driver.findElement(By.id('signup-button'))
+    signup.click()
+
+    } catch(e) {
+        console.error('error ', e)
+    } finally {
 
     let user = {
         name: name,
@@ -63,6 +88,7 @@ let driver = await new webdriver.Builder().forBrowser('chrome').build();
         }
     
     });
+    }
 };
 
 rl.question('[\033[36m+\033[37m] Amount : ', amount => {
