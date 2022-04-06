@@ -6,5 +6,3 @@ game.StarterGui:SetCore("SendNotification", {
    })
 
 setclipboard("https://discord.gg/4UQ7myK99P")
-
-request = syn.request or request
